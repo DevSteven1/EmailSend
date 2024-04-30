@@ -2,7 +2,6 @@ const nodemailer = require('nodemailer');
 const { google } = require('googleapis');
 const OAuth2 = google.auth.OAuth2;
 
-// Configura OAuth2
 const oauth2Client = new OAuth2(
     '101443194688-4ba53h87svl2s2oora4h3eeb5558sev4.apps.googleusercontent.com',
     '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',
@@ -28,17 +27,26 @@ const transporter = nodemailer.createTransport({
 
 console.time("Enviar correo");
 
-// Envía el correo electrónico
-transporter.sendMail({
-    from: 'stevenpajarodev@gmail.com',
-    to: 'stevenpajaro66@gmail.com',
-    subject: 'Asunto del correo electrónico',
-    text: 'Hola mundo',
-}, (error, info) => {
-    if (error) {
-        console.error('Error al enviar el correo electrónico:', error);
-    } else {
-        console.log('Correo electrónico enviado:', info.response);
-	console.timeLog("Enviado");
-    }
+const destinatarios = [
+    'stevenpajaro66@gmail.com',
+    'stiuwigaming@gmail.com',
+    'arnoldpajaro20@gmail.com'
+    // Agrega más correos electrónicos si es necesario
+];
+
+destinatarios.forEach(destinatario => {
+    transporter.sendMail({
+        from: 'stevenpajarodev@gmail.com',
+        to: destinatario,
+        subject: 'Asunto del correo electrónico',
+        text: 'Hola mundo',
+    }, (error, info) => {
+        if (error) {
+            console.error('Error al enviar el correo electrónico a', destinatario, ':', error);
+        } else {
+            console.log('Correo electrónico enviado a', destinatario, ':', info.response);
+        }
+    });
 });
+
+console.timeLog("Enviar correo");
